@@ -12,6 +12,7 @@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
 
     <style>
+
         body {
             padding: 0;
             margin: 0;
@@ -27,19 +28,8 @@
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
 }
-        .info h4 {
-    margin: 0 0 5px;
-    color: #8c510a;
-}
         
-                .state {
-    padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif, #8c510a;
-    background: #c0bb72;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-}
-        .state h4 {
+        .info h4 {
     margin: 0 0 5px;
     color: #8c510a;
 }
@@ -201,6 +191,7 @@ background-image: ('images/home_bbbbbb_14.png');
     </style>
 
     <style>
+
         #map {
             width: 1100px;
             height: 750px;
@@ -210,7 +201,9 @@ background-image: ('images/home_bbbbbb_14.png');
             border: 2px solid #000000;
             pointer-events: auto;
         }
+        
     </style>
+
 </head>
 
 <body>
@@ -220,7 +213,6 @@ background-image: ('images/home_bbbbbb_14.png');
     <script type="text/javascript" src='data/city10.js'></script>
     <script type="text/javascript" src='data/county10.js'></script>
     <script type="text/javascript" src="nav-bar.js"></script>
-
     <script type="text/javascript">
         var map = L.map('map', {
             center: [41.9, -93.4],
@@ -365,6 +357,7 @@ background-image: ('images/home_bbbbbb_14.png');
         legend.addTo(map);
 
         var state_data = state_pops.csv('data/state_pops.csv');
+
     </script>
 
     <div id='side-panel'>
