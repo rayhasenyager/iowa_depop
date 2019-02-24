@@ -1,4 +1,4 @@
-# city geojson start
+# import needed modules
 import pandas as pd
 import geopandas as gpd
 import os
@@ -7,19 +7,24 @@ import fiona
 import numpy as np
 from json import dumps
 
-# merge csv with shapefile
+# city geojson start
+# read files
 rpop = pd.read_csv('D:/Documents/Education/VU/Courses/Internet_GIS/Assignment_Adv/Data/2010_data/2010_place_list_19.csv', sep='\t')
 lshape = gpd.read_file('D:/Documents/Education/VU/Courses/Internet_GIS/Assignment_Adv/Data/2010_data/tl_2010_19_place10/tl_2010_19_place10.shp')
+# rename columns
 rpop.rename(columns={'POP10':'urban_pop'}, inplace=True)
+# reformat data types
 lshape["GEOID10"] = pd.to_numeric(lshape["GEOID10"])
 lshape["INTPTLAT10"] = pd.to_numeric(lshape["INTPTLAT10"])
 lshape["INTPTLON10"] = pd.to_numeric(lshape["INTPTLON10"])
+# merge csv with shapefile
 lshape = lshape.merge(rpop, left_on='GEOID10', right_on="GEOID")
+# save as a shapefile
 lshape.to_file(os.path.join('D:/Documents/Education/VU/Courses/Internet_GIS/Assignment_Adv/Data/2010_data/tl_2010_19_place10/tl_2010_19_place.shp'))
-
-# reduce attributes
+# read the new shapefile
 city = gpd.read_file('D:/Documents/Education/VU/Courses/Internet_GIS/Assignment_Adv/Data/2010_data/tl_2010_19_place10/tl_2010_19_place.shp')
 city.explode()
+# reduce attributes
 city = city.drop(['PLACEFP10','PLACENS10','GEOID10','NAMELSAD10','LSAD10','CLASSFP10','PCICBSA10','PCINECTA10','MTFCC10','FUNCSTAT10','USPS','ANSICODE','NAME','LSAD','FUNCSTAT','HU10','ALAND','AWATER','INTPTLAT','INTPTLONG'], axis = 1)
 
 # save as shapefile
@@ -90,7 +95,7 @@ cshape.to_file(os.path.join('D:/Documents/Education/VU/Courses/Internet_GIS/Assi
 # reduce attributes
 cf = gpd.read_file('D:/Documents/Education/VU/Courses/Internet_GIS/Assignment_Adv/Data/2010_data/tl_2010_19_county10/tl_2010_19_county.shp')
 cf.explode()
-cf = cf.drop(['COUNTYFP10', 'COUNTYNS10', 'GEOID10', 'NAMELSAD10', 'LSAD10', 'CLASSFP10', 'MTFCC10', 'CSAFP10', 'CBSAFP10', 'METDIVFP10', 'FUNCSTAT10', 'USPS', 'ANSICODE', 'NAME', 'HU10', 'ALAND', 'AWATER', 'INTPTLAT', 'INTPTLONG', 'County'], axis = 1)
+cf = cf.drop(['COUNTYFP10', 'COUNTYNS10', 'GEOID10','NAMELSAD10', 'LSAD10', 'CLASSFP10', 'MTFCC10', 'CSAFP10', 'CBSAFP10', 'METDIVFP10', 'FUNCSTAT10', 'USPS', 'ANSICODE', 'NAME', 'HU10', 'ALAND', 'AWATER', 'INTPTLAT', 'INTPTLONG', 'County'], axis = 1)
 cf.to_file(os.path.join('D:/Documents/Education/VU/Courses/Internet_GIS/Assignment_Adv/Data/2010_data/tl_2010_19_county10/tl_2010_county.shp'))
 
 # read the shapefile
@@ -113,7 +118,7 @@ geojson.close()
 
 # create state urban and rural population pivot table
 spop = gpd.read_file('D:/Documents/Education/VU/Courses/Internet_GIS/Assignment_Adv/Data/2010_data/tl_2010_19_county10/tl_2010_county.shp')
-spop = spop.drop(['NAME10','ALAND10','AWATER10','INTPTLAT10','INTPTLON10','GEOID','ALAND_SQMI','AWATER_SQM','rural_perc','urban_perc'], axis = 1)
+spop = spop.drop(['ALAND10','AWATER10','INTPTLAT10','INTPTLON10','GEOID','ALAND_SQMI','AWATER_SQM','rural_perc','urban_perc'], axis = 1)
 spop = pd.pivot_table(spop,index=['STATEFP10'],values=['POP10','urban_pop','rural_pop'],aggfunc=np.sum)
 spop.to_csv('D:/Documents/Education/VU/Courses/Internet_GIS/Assignment_Adv/Data/2010_data/state_pops.csv')
 # state urban/rural population pivot table complete

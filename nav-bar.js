@@ -2,8 +2,6 @@
     L.Control.NavBar = L.Control.extend({
         options: {
             position: 'bottomright',
-            //center:,
-            //zoom :,
             forwardTitle: "Go forward in map view history",
             backTitle: "Go back in map view history",
             homeTitle: "Go to home map view"
